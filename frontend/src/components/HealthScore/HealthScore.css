@@ -1,0 +1,130 @@
+/**
+ * HealthScore Styles
+ */
+
+.health-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+/* Circular Progress */
+.health-score-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.health-score-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.health-score-bg {
+    fill: none;
+    stroke: var(--neutral-200);
+    stroke-width: 8;
+}
+
+.health-score-progress {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray var(--transition-slow);
+}
+
+/* Score colors */
+.score-excellent .health-score-progress {
+    stroke: var(--success-500);
+}
+
+.score-moderate .health-score-progress {
+    stroke: var(--warning-500);
+}
+
+.score-poor .health-score-progress {
+    stroke: var(--danger-500);
+}
+
+/* Score value in center */
+.health-score-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.health-score-number {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.score-excellent .health-score-number {
+    color: var(--success-600);
+}
+
+.score-moderate .health-score-number {
+    color: var(--warning-600);
+}
+
+.score-poor .health-score-number {
+    color: var(--danger-600);
+}
+
+.health-score-max {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--neutral-400);
+    font-weight: 500;
+}
+
+/* Label */
+.health-score-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+}
+
+.score-excellent .health-score-label {
+    background: var(--success-100);
+    color: var(--success-700);
+}
+
+.score-moderate .health-score-label {
+    background: var(--warning-100);
+    color: var(--warning-700);
+}
+
+.score-poor .health-score-label {
+    background: var(--danger-100);
+    color: var(--danger-700);
+}
+
+.health-score-emoji {
+    font-size: var(--font-size-lg);
+}
+
+.health-score-text {
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .health-score-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .health-score-number {
+        font-size: var(--font-size-2xl);
+    }
+}

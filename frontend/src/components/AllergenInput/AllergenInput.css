@@ -1,0 +1,155 @@
+/**
+ * AllergenInput Styles
+ */
+
+.allergen-input-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--spacing-4);
+    background: linear-gradient(135deg, var(--warning-50), var(--danger-50));
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--warning-200);
+}
+
+.allergen-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-3);
+}
+
+.allergen-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--neutral-800);
+}
+
+.allergen-icon {
+    font-size: var(--font-size-lg);
+}
+
+.allergen-clear-btn {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--danger-600);
+    background: white;
+    border: 1px solid var(--danger-200);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.allergen-clear-btn:hover {
+    background: var(--danger-50);
+    border-color: var(--danger-400);
+}
+
+.allergen-input-wrapper {
+    display: flex;
+    gap: var(--spacing-2);
+}
+
+.allergen-input {
+    flex: 1;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--neutral-200);
+    border-radius: var(--radius-lg);
+    background: white;
+    transition: border-color var(--transition-fast);
+}
+
+.allergen-input:focus {
+    outline: none;
+    border-color: var(--warning-400);
+}
+
+.allergen-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--primary-600);
+    background: white;
+    border: 2px solid var(--primary-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.allergen-toggle-btn:hover {
+    background: var(--primary-50);
+    border-color: var(--primary-400);
+}
+
+.allergen-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-3);
+    animation: fadeIn var(--transition-fast);
+}
+
+.allergen-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--danger-700);
+    background: white;
+    border: 1px solid var(--danger-200);
+    border-radius: var(--radius-full);
+}
+
+.allergen-tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: var(--font-size-base);
+    color: var(--danger-500);
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.allergen-tag-remove:hover {
+    background: var(--danger-100);
+    color: var(--danger-700);
+}
+
+.allergen-help {
+    margin-top: var(--spacing-3);
+    font-size: var(--font-size-xs);
+    color: var(--neutral-500);
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .allergen-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2);
+    }
+
+    .allergen-input-wrapper {
+        flex-direction: column;
+    }
+
+    .allergen-toggle-btn {
+        align-self: flex-end;
+    }
+}

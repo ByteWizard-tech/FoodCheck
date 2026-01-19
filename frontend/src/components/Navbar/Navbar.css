@@ -1,0 +1,199 @@
+/**
+ * Navbar Styles
+ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--neutral-200);
+    z-index: var(--z-dropdown);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Brand/Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    text-decoration: none;
+    color: var(--neutral-900);
+    font-weight: 700;
+    font-size: var(--font-size-xl);
+    transition: transform var(--transition-fast);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.02);
+    color: var(--neutral-900);
+}
+
+.navbar-logo {
+    font-size: var(--font-size-2xl);
+}
+
+.navbar-title {
+    background: linear-gradient(135deg, var(--primary-600), var(--success-600));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Desktop Navigation Links */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.navbar-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-lg);
+    color: var(--neutral-600);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.navbar-link:hover {
+    background: var(--primary-50);
+    color: var(--primary-600);
+}
+
+.navbar-link.active {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+}
+
+.navbar-link-icon {
+    font-size: var(--font-size-lg);
+}
+
+/* Mobile Toggle Button */
+.navbar-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--neutral-700);
+    border-radius: 2px;
+    transition: all var(--transition-fast);
+}
+
+.hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.navbar-mobile-menu {
+    position: fixed;
+    top: var(--navbar-height);
+    right: -100%;
+    width: 280px;
+    height: calc(100vh - var(--navbar-height));
+    background: white;
+    box-shadow: var(--shadow-xl);
+    transition: right var(--transition-normal);
+    overflow-y: auto;
+    z-index: var(--z-dropdown);
+}
+
+.navbar-mobile-menu.open {
+    right: 0;
+}
+
+.navbar-mobile-links {
+    padding: var(--spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.navbar-mobile-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    color: var(--neutral-700);
+    font-weight: 500;
+    font-size: var(--font-size-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.navbar-mobile-link:hover {
+    background: var(--primary-50);
+    color: var(--primary-600);
+}
+
+.navbar-mobile-link.active {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+}
+
+/* Mobile Overlay */
+.navbar-overlay {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: calc(var(--z-dropdown) - 1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: var(--font-size-lg);
+    }
+
+    .navbar-logo {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* Add top padding to main content to account for fixed navbar */
+.main-content {
+    padding-top: var(--navbar-height);
+}

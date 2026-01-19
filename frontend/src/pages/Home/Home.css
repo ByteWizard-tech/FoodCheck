@@ -1,0 +1,132 @@
+/**
+ * Home Page Styles
+ */
+
+.home-page {
+    padding-top: calc(var(--navbar-height) + var(--spacing-8));
+    padding-bottom: var(--spacing-16);
+}
+
+/* Hero Section */
+.home-hero {
+    text-align: center;
+    margin-bottom: var(--spacing-10);
+}
+
+.home-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-3);
+    font-size: var(--font-size-4xl);
+    font-weight: 800;
+    color: var(--neutral-900);
+    margin-bottom: var(--spacing-4);
+    line-height: 1.2;
+}
+
+.home-title-emoji {
+    font-size: 1.2em;
+}
+
+.home-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--neutral-600);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Allergen Section */
+.home-allergen-section {
+    margin-bottom: var(--spacing-6);
+}
+
+/* Search Section */
+.home-search-section {
+    margin-bottom: var(--spacing-8);
+}
+
+/* Error Message */
+.home-error {
+    max-width: 600px;
+    margin: 0 auto var(--spacing-6) auto;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+/* Features Section */
+.home-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-6);
+    margin-top: var(--spacing-12);
+}
+
+.feature-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+    display: block;
+    font-size: 48px;
+    margin-bottom: var(--spacing-4);
+}
+
+.feature-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--neutral-900);
+    margin-bottom: var(--spacing-2);
+}
+
+.feature-description {
+    font-size: var(--font-size-sm);
+    color: var(--neutral-500);
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .home-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .home-title {
+        font-size: var(--font-size-2xl);
+        flex-direction: column;
+        gap: var(--spacing-2);
+    }
+
+    .home-subtitle {
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .home-features {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        padding: var(--spacing-4);
+    }
+
+    .feature-icon {
+        font-size: 36px;
+        margin-bottom: var(--spacing-3);
+    }
+}

@@ -1,0 +1,87 @@
+/**
+ * AllergyWarning Styles
+ */
+
+.allergy-warning {
+    background: linear-gradient(135deg, var(--danger-50), #fff5f5);
+    border: 2px solid var(--danger-300);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    margin-bottom: var(--spacing-6);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-4px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+.allergy-warning-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+}
+
+.allergy-warning-icon {
+    font-size: var(--font-size-2xl);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.allergy-warning-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--danger-700);
+    margin: 0;
+}
+
+.allergy-warning-message {
+    color: var(--danger-700);
+    margin-bottom: var(--spacing-4);
+    font-weight: 500;
+}
+
+.allergy-warning-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+}
+
+.allergy-warning-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--danger-500), var(--danger-600));
+    border-radius: var(--radius-full);
+    text-transform: capitalize;
+    box-shadow: var(--shadow-sm);
+}
+
+.allergy-warning-disclaimer {
+    font-size: var(--font-size-sm);
+    color: var(--neutral-600);
+    font-style: italic;
+    margin: 0;
+}
