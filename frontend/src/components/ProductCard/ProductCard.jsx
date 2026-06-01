@@ -1,6 +1,5 @@
 /**
- * ProductCard Component
- * Display card for search results with product image and name
+ * ProductCard Component — Dark Dashboard
  */
 
 import { Link } from 'react-router-dom';
@@ -9,32 +8,32 @@ import './ProductCard.css';
 function ProductCard({ product }) {
     const { id, name, brand, image, healthRating } = product;
 
-    // Get health rating badge color
     const getRatingClass = (rating) => {
         if (!rating) return 'rating-unknown';
-        const r = rating.toLowerCase();
-        if (r === 'a') return 'rating-a';
-        if (r === 'b') return 'rating-b';
-        if (r === 'c') return 'rating-c';
-        if (r === 'd') return 'rating-d';
-        if (r === 'e') return 'rating-e';
-        return 'rating-unknown';
+        switch (rating.toLowerCase()) {
+            case 'a': return 'rating-a';
+            case 'b': return 'rating-b';
+            case 'c': return 'rating-c';
+            case 'd': return 'rating-d';
+            case 'e': return 'rating-e';
+            default: return 'rating-unknown';
+        }
     };
 
     return (
         <Link to={`/product/${id}`} className="product-card">
-            {/* Product Image */}
+            {/* Image */}
             <div className="product-card-image">
                 {image ? (
                     <img src={image} alt={name} loading="lazy" />
                 ) : (
                     <div className="product-card-no-image">
-                        <span>🍽️</span>
-                        <p>No Image</p>
+                        <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
                     </div>
                 )}
-
-                {/* Nutri-Score Badge */}
                 {healthRating && (
                     <div className={`product-card-rating ${getRatingClass(healthRating)}`}>
                         {healthRating.toUpperCase()}
@@ -42,18 +41,14 @@ function ProductCard({ product }) {
                 )}
             </div>
 
-            {/* Product Info */}
+            {/* Info */}
             <div className="product-card-info">
                 <h3 className="product-card-name">{name || 'Unknown Product'}</h3>
-                {brand && (
-                    <p className="product-card-brand">{brand}</p>
-                )}
+                {brand && <p className="product-card-brand">{brand}</p>}
             </div>
 
-            {/* View Details Arrow */}
-            <div className="product-card-arrow">
-                →
-            </div>
+            {/* Arrow */}
+            <div className="product-card-arrow">→</div>
         </Link>
     );
 }

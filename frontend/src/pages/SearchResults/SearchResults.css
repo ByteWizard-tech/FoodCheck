@@ -1,91 +1,84 @@
 /**
- * SearchResults Page Styles
+ * SearchResults Styles — Dark Dashboard
  */
 
 .search-results-page {
-    padding-top: calc(var(--navbar-height) + var(--spacing-6));
-    padding-bottom: var(--spacing-12);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    min-height: 100vh;
 }
 
 /* Header */
 .search-results-header {
-    margin-bottom: var(--spacing-8);
-}
-
-.back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-1);
-    color: var(--primary-600);
-    font-weight: 500;
-    margin-bottom: var(--spacing-4);
-    transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-    color: var(--primary-700);
+    margin-bottom: var(--space-8);
 }
 
 .search-results-title {
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
-    color: var(--neutral-900);
-    margin-bottom: var(--spacing-2);
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-2);
+}
+
+.search-results-title-query {
+    color: var(--text-muted);
 }
 
 .search-results-count {
-    color: var(--neutral-500);
-    font-size: var(--font-size-base);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
 }
 
-/* Error State */
+/* Product list */
+.product-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* Error / Empty */
 .search-results-error {
     display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-3);
+    align-items: center;
+    gap: var(--space-3);
 }
 
-.search-results-error span {
-    font-size: var(--font-size-xl);
-}
-
-.search-results-error p {
-    margin: 0;
-}
-
-/* Empty State */
 .search-results-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: var(--spacing-16) var(--spacing-4);
+    padding: var(--space-16) var(--space-8);
+    gap: var(--space-4);
 }
 
 .empty-icon {
-    display: block;
-    font-size: 80px;
-    margin-bottom: var(--spacing-6);
+    width: 60px;
+    height: 60px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    margin: 0 auto;
 }
 
 .search-results-empty h2 {
-    font-size: var(--font-size-2xl);
-    color: var(--neutral-900);
-    margin-bottom: var(--spacing-4);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 .search-results-empty p {
-    color: var(--neutral-500);
-    margin-bottom: var(--spacing-2);
-}
-
-.search-results-empty .btn {
-    margin-top: var(--spacing-6);
-}
-
-/* Product Grid */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-6);
-    margin-bottom: var(--spacing-10);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    max-width: 360px;
 }
 
 /* Pagination */
@@ -93,95 +86,65 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-2);
-    padding-top: var(--spacing-8);
-    border-top: 1px solid var(--neutral-200);
+    gap: var(--space-2);
+    margin-top: var(--space-10);
 }
 
 .pagination-btn {
-    padding: var(--spacing-3) var(--spacing-5);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--primary-600);
-    background: white;
-    border: 2px solid var(--primary-200);
-    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--ease-fast);
 }
 
 .pagination-btn:hover:not(:disabled) {
-    background: var(--primary-50);
-    border-color: var(--primary-400);
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
 }
 
 .pagination-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
 .pagination-numbers {
     display: flex;
-    gap: var(--spacing-1);
+    gap: var(--space-1);
 }
 
 .pagination-number {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--neutral-600);
-    background: white;
-    border: 2px solid transparent;
-    border-radius: var(--radius-lg);
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--ease-fast);
 }
 
 .pagination-number:hover {
-    background: var(--primary-50);
-    color: var(--primary-600);
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
 }
 
 .pagination-number.active {
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: white;
-    border-color: var(--primary-500);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .product-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-4);
-    }
-
-    .search-results-title {
-        font-size: var(--font-size-xl);
-    }
-}
-
-@media (max-width: 480px) {
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .pagination {
-        flex-wrap: wrap;
-        gap: var(--spacing-3);
-    }
-
-    .pagination-btn {
-        padding: var(--spacing-2) var(--spacing-4);
-        font-size: var(--font-size-xs);
-    }
+    background: var(--text-primary);
+    color: #000;
+    border-color: var(--text-primary);
+    font-weight: 700;
 }

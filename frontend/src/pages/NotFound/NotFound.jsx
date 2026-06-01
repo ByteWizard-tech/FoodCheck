@@ -1,6 +1,5 @@
 /**
- * NotFound Page (404)
- * Displayed when product or page is not found
+ * NotFound Page — Dark Dashboard
  */
 
 import { Link, useLocation } from 'react-router-dom';
@@ -11,77 +10,62 @@ function NotFound() {
     const state = location.state || {};
     const { type, query } = state;
 
-    // Determine message based on context
     const getMessage = () => {
         if (type === 'barcode') {
             return {
+                code: '404',
                 title: 'Product Not Found',
-                subtitle: `We couldn't find a product with barcode "${query}"`,
-                suggestion: 'The barcode may not be in our database. Try searching by product name instead.'
+                subtitle: `No product found with barcode "${query}"`,
+                suggestion: 'The barcode may not be in our database. Try searching by product name.',
             };
         }
         if (type === 'product') {
             return {
+                code: '404',
                 title: 'Product Not Found',
-                subtitle: `We couldn't find a product with ID "${query}"`,
-                suggestion: 'This product may have been removed or the link may be incorrect.'
+                subtitle: `No product found with ID "${query}"`,
+                suggestion: 'This product may have been removed or the link is incorrect.',
             };
         }
         return {
+            code: '404',
             title: 'Page Not Found',
-            subtitle: "Oops! The page you're looking for doesn't exist",
-            suggestion: 'It might have been moved, deleted, or you may have mistyped the URL.'
+            subtitle: "The page you're looking for doesn't exist.",
+            suggestion: "It may have been moved, deleted, or you mistyped the URL.",
         };
     };
 
-    const message = getMessage();
+    const msg = getMessage();
 
     return (
         <div className="not-found-page page page-centered">
             <div className="container">
                 <div className="not-found-content">
-                    {/* 404 Illustration */}
-                    <div className="not-found-illustration">
-                        <span className="not-found-emoji">🔍</span>
-                        <div className="not-found-number">404</div>
-                    </div>
+                    <div className="not-found-code">{msg.code}</div>
+                    <h1 className="not-found-title">{msg.title}</h1>
+                    <p className="not-found-subtitle">{msg.subtitle}</p>
+                    <p className="not-found-suggestion">{msg.suggestion}</p>
 
-                    {/* Message */}
-                    <h1 className="not-found-title">{message.title}</h1>
-                    <p className="not-found-subtitle">{message.subtitle}</p>
-                    <p className="not-found-suggestion">{message.suggestion}</p>
-
-                    {/* Actions */}
                     <div className="not-found-actions">
-                        <Link to="/" className="btn btn-primary">
-                            🏠 Go to Home
-                        </Link>
-                        <button
-                            onClick={() => window.history.back()}
-                            className="btn btn-secondary"
-                        >
+                        <Link to="/" className="btn btn-primary">Go to Home</Link>
+                        <button onClick={() => window.history.back()} className="btn btn-secondary">
                             ← Go Back
                         </button>
                     </div>
 
-                    {/* Tips Section */}
                     <div className="not-found-tips">
-                        <h3>What you can do:</h3>
+                        <p className="not-found-tips-label">What you can do</p>
                         <ul>
                             <li>
-                                <span className="tip-icon">🔍</span>
                                 <span>Search for products by name on the home page</span>
                             </li>
                             <li>
-                                <span className="tip-icon">📷</span>
-                                <span>Use our barcode scanner to find products</span>
+                                <span>Use the barcode scanner to find products</span>
                             </li>
                             <li>
-                                <span className="tip-icon">❓</span>
                                 <span>Check out our <Link to="/help">Help page</Link> for guidance</span>
                             </li>
                             <li>
-                                <span className="tip-icon">📧</span>
                                 <span><Link to="/contact">Contact us</Link> if you're having issues</span>
                             </li>
                         </ul>

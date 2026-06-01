@@ -1,19 +1,18 @@
 /**
- * HealthScore Styles
+ * HealthScore Styles — Dark Dashboard
  */
 
 .health-score {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--spacing-3);
+    gap: var(--space-4);
 }
 
-/* Circular Progress */
 .health-score-circle {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
 }
 
 .health-score-svg {
@@ -24,107 +23,102 @@
 
 .health-score-bg {
     fill: none;
-    stroke: var(--neutral-200);
-    stroke-width: 8;
+    stroke: var(--bg-surface-3);
+    stroke-width: 6;
 }
 
 .health-score-progress {
     fill: none;
-    stroke-width: 8;
+    stroke-width: 6;
     stroke-linecap: round;
-    transition: stroke-dasharray var(--transition-slow);
+    transition: stroke-dasharray var(--ease-slow);
 }
 
-/* Score colors */
 .score-excellent .health-score-progress {
-    stroke: var(--success-500);
+    stroke: var(--score-good);
+    filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.5));
 }
 
 .score-moderate .health-score-progress {
-    stroke: var(--warning-500);
+    stroke: var(--score-moderate);
+    filter: drop-shadow(0 0 6px rgba(234, 179, 8, 0.5));
 }
 
 .score-poor .health-score-progress {
-    stroke: var(--danger-500);
+    stroke: var(--score-poor);
+    filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5));
 }
 
-/* Score value in center */
 .health-score-value {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .health-score-number {
-    font-size: var(--font-size-3xl);
-    font-weight: 700;
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
     line-height: 1;
-}
-
-.score-excellent .health-score-number {
-    color: var(--success-600);
-}
-
-.score-moderate .health-score-number {
-    color: var(--warning-600);
-}
-
-.score-poor .health-score-number {
-    color: var(--danger-600);
+    letter-spacing: -0.04em;
 }
 
 .health-score-max {
-    display: block;
-    font-size: var(--font-size-sm);
-    color: var(--neutral-400);
-    font-weight: 500;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 2px;
 }
 
-/* Label */
+/* Label / info */
+.health-score-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
 .health-score-label {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
-    padding: var(--spacing-2) var(--spacing-4);
-    border-radius: var(--radius-full);
-    font-weight: 600;
+    gap: var(--space-2);
 }
 
-.score-excellent .health-score-label {
-    background: var(--success-100);
-    color: var(--success-700);
-}
-
-.score-moderate .health-score-label {
-    background: var(--warning-100);
-    color: var(--warning-700);
-}
-
-.score-poor .health-score-label {
-    background: var(--danger-100);
-    color: var(--danger-700);
-}
-
-.health-score-emoji {
-    font-size: var(--font-size-lg);
-}
-
-.health-score-text {
-    font-size: var(--font-size-sm);
+.health-score-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    border-radius: var(--radius-full);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .health-score-circle {
-        width: 100px;
-        height: 100px;
-    }
+.score-excellent .health-score-badge {
+    background: var(--score-good-dim);
+    color: var(--score-good);
+    border: 1px solid var(--score-good);
+}
 
-    .health-score-number {
-        font-size: var(--font-size-2xl);
-    }
+.score-moderate .health-score-badge {
+    background: var(--score-moderate-dim);
+    color: var(--score-moderate);
+    border: 1px solid var(--score-moderate);
+}
+
+.score-poor .health-score-badge {
+    background: var(--score-poor-dim);
+    color: var(--score-poor);
+    border: 1px solid var(--score-poor);
+}
+
+.health-score-desc {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    line-height: 1.5;
+    max-width: 200px;
 }

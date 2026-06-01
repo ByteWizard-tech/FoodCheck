@@ -1,118 +1,134 @@
 /**
- * BarcodeScanner Styles
+ * BarcodeScanner Styles — Dark Dashboard
  */
 
 .barcode-scanner-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-modal);
-    padding: var(--spacing-4);
-    animation: fadeIn var(--transition-fast);
+    z-index: 200;
+    padding: var(--space-4);
+    animation: fadeIn var(--ease-fast) both;
+    backdrop-filter: blur(6px);
 }
 
 .barcode-scanner-modal {
     width: 100%;
-    max-width: 500px;
-    background: white;
-    border-radius: var(--radius-2xl);
+    max-width: 480px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--shadow-xl);
-    animation: slideUp var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+    animation: slideUp var(--ease-normal) both;
 }
 
 .barcode-scanner-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-4) var(--spacing-6);
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: white;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .barcode-scanner-title {
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
 }
 
 .barcode-scanner-close {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    font-size: var(--font-size-lg);
-    color: white;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: var(--radius-lg);
+    width: 32px;
+    height: 32px;
+    background: var(--bg-surface-3);
+    color: var(--text-muted);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: background var(--transition-fast);
+    transition: all var(--ease-fast);
+    font-size: 16px;
 }
 
 .barcode-scanner-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
 }
 
 .barcode-scanner-content {
-    padding: var(--spacing-6);
+    padding: var(--space-5);
 }
 
 .barcode-scanner-region {
     width: 100%;
     min-height: 300px;
-    background: var(--neutral-900);
-    border-radius: var(--radius-lg);
+    background: #000;
+    border-radius: var(--radius-md);
     overflow: hidden;
+    border: 1px solid var(--border-default);
+    position: relative;
 }
 
-/* Override html5-qrcode default styles */
+/* Override html5-qrcode library styles */
 #barcode-scanner-region video {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
 }
 
 #barcode-scanner-region img {
     display: none;
 }
 
+#barcode-scanner-region > div {
+    border-radius: var(--radius-md) !important;
+}
+
 .barcode-scanner-instructions {
     text-align: center;
-    margin-top: var(--spacing-4);
-    color: var(--neutral-600);
+    margin-top: var(--space-4);
+}
+
+.barcode-scanner-instructions p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
 }
 
 .scanning-indicator {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-2);
-    margin-top: var(--spacing-2);
-    padding: var(--spacing-2) var(--spacing-4);
-    background: var(--success-50);
-    color: var(--success-700);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 4px 14px;
+    background: var(--score-good-dim);
+    border: 1px solid var(--score-good);
     border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--score-good);
 }
 
 .scanning-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--success-500);
+    width: 6px;
+    height: 6px;
+    background: var(--score-good);
     border-radius: 50%;
     animation: pulse 1s ease-in-out infinite;
 }
 
 .scanner-tips {
-    margin-top: var(--spacing-3);
-    font-size: var(--font-size-xs);
-    color: var(--neutral-500);
+    margin-top: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    line-height: 1.5;
 }
 
 .barcode-scanner-error {
@@ -120,44 +136,38 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-8);
+    padding: var(--space-10) var(--space-6);
     text-align: center;
+    gap: var(--space-4);
 }
 
 .barcode-scanner-error .error-icon {
-    font-size: 48px;
-    margin-bottom: var(--spacing-4);
+    font-size: 40px;
 }
 
 .barcode-scanner-error p {
-    color: var(--neutral-600);
-    margin-bottom: var(--spacing-6);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
     line-height: 1.6;
+    max-width: 320px;
 }
 
 .barcode-scanner-footer {
     display: flex;
-    justify-content: center;
-    padding: var(--spacing-4) var(--spacing-6);
-    background: var(--neutral-50);
-    border-top: 1px solid var(--neutral-200);
+    justify-content: flex-end;
+    padding: var(--space-4) var(--space-5);
+    border-top: 1px solid var(--border-subtle);
 }
 
-/* Responsive */
 @media (max-width: 480px) {
     .barcode-scanner-overlay {
         padding: 0;
         align-items: flex-end;
     }
-
     .barcode-scanner-modal {
         max-width: 100%;
-        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         max-height: 90vh;
         overflow-y: auto;
-    }
-
-    .barcode-scanner-region {
-        min-height: 250px;
     }
 }

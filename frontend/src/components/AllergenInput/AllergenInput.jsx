@@ -1,12 +1,10 @@
 /**
- * AllergenInput Component
- * Input for user allergens with localStorage persistence
+ * AllergenInput Component — Dark Dashboard
  */
 
 import { useState, useEffect } from 'react';
 import './AllergenInput.css';
 
-// localStorage key for allergens
 const ALLERGENS_STORAGE_KEY = 'food_compliance_allergens';
 
 function AllergenInput() {
@@ -14,7 +12,6 @@ function AllergenInput() {
     const [savedAllergens, setSavedAllergens] = useState([]);
     const [showSaved, setShowSaved] = useState(false);
 
-    // Load allergens from localStorage on mount
     useEffect(() => {
         const stored = localStorage.getItem(ALLERGENS_STORAGE_KEY);
         if (stored) {
@@ -28,35 +25,24 @@ function AllergenInput() {
         }
     }, []);
 
-    // Parse allergen text into array
-    const parseAllergens = (text) => {
-        return text
-            .split(',')
-            .map(a => a.trim().toLowerCase())
-            .filter(a => a.length > 0);
-    };
+    const parseAllergens = (text) =>
+        text.split(',').map(a => a.trim().toLowerCase()).filter(a => a.length > 0);
 
-    // Handle input change and save to localStorage
     const handleChange = (e) => {
         const text = e.target.value;
         setAllergenText(text);
-
-        // Parse and save allergens
         const allergens = parseAllergens(text);
         setSavedAllergens(allergens);
-
-        // Save to localStorage
         localStorage.setItem(ALLERGENS_STORAGE_KEY, JSON.stringify(allergens));
     };
 
-    // Handle clear all allergens
     const handleClear = () => {
         setAllergenText('');
         setSavedAllergens([]);
+        setShowSaved(false);
         localStorage.removeItem(ALLERGENS_STORAGE_KEY);
     };
 
-    // Remove a single allergen
     const removeAllergen = (allergenToRemove) => {
         const newAllergens = savedAllergens.filter(a => a !== allergenToRemove);
         setSavedAllergens(newAllergens);
@@ -68,16 +54,15 @@ function AllergenInput() {
         <div className="allergen-input-container">
             <div className="allergen-header">
                 <label className="allergen-label" htmlFor="allergen-input">
-                    <span className="allergen-icon">⚠️</span>
+                    <svg className="allergen-label-icon" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
                     Your Allergens
                 </label>
                 {savedAllergens.length > 0 && (
-                    <button
-                        className="allergen-clear-btn"
-                        onClick={handleClear}
-                        aria-label="Clear all allergens"
-                    >
-                        Clear All
+                    <button className="allergen-clear-btn" onClick={handleClear} aria-label="Clear all allergens">
+                        Clear all
                     </button>
                 )}
             </div>
@@ -87,7 +72,7 @@ function AllergenInput() {
                     id="allergen-input"
                     type="text"
                     className="allergen-input"
-                    placeholder="Enter allergens separated by commas (e.g., peanuts, milk, gluten)"
+                    placeholder="e.g. peanuts, milk, gluten, shellfish..."
                     value={allergenText}
                     onChange={handleChange}
                     aria-describedby="allergen-help"
@@ -97,18 +82,16 @@ function AllergenInput() {
                         className="allergen-toggle-btn"
                         onClick={() => setShowSaved(!showSaved)}
                         aria-expanded={showSaved}
-                        aria-label={showSaved ? 'Hide saved allergens' : 'Show saved allergens'}
                     >
-                        {showSaved ? '▼' : '▶'} {savedAllergens.length}
+                        {showSaved ? '▲' : '▼'} {savedAllergens.length}
                     </button>
                 )}
             </div>
 
-            {/* Saved allergens tags */}
             {showSaved && savedAllergens.length > 0 && (
                 <div className="allergen-tags">
-                    {savedAllergens.map((allergen, index) => (
-                        <span key={index} className="allergen-tag">
+                    {savedAllergens.map((allergen, i) => (
+                        <span key={i} className="allergen-tag">
                             {allergen}
                             <button
                                 className="allergen-tag-remove"
@@ -123,21 +106,16 @@ function AllergenInput() {
             )}
 
             <p id="allergen-help" className="allergen-help">
-                Your allergens are saved locally and will be used to check products for potential allergic reactions.
+                Allergens are saved locally and checked against every product you view.
             </p>
         </div>
     );
 }
 
-// Export helper function to get allergens from localStorage
 export function getUserAllergens() {
     const stored = localStorage.getItem(ALLERGENS_STORAGE_KEY);
     if (stored) {
-        try {
-            return JSON.parse(stored);
-        } catch (e) {
-            return [];
-        }
+        try { return JSON.parse(stored); } catch (e) { return []; }
     }
     return [];
 }

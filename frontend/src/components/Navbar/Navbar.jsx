@@ -1,6 +1,5 @@
 /**
- * Navbar Component
- * Top navigation bar with responsive mobile menu
+ * Navbar Component — Dark Dashboard
  */
 
 import { useState } from 'react';
@@ -8,43 +7,35 @@ import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
-    // Track mobile menu open state
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
 
-    // Navigation links configuration
     const navLinks = [
-        { path: '/', label: 'Home', icon: '🏠' },
-        { path: '/about', label: 'About', icon: '📋' },
-        { path: '/contact', label: 'Contact', icon: '✉️' },
-        { path: '/help', label: 'Help', icon: '❓' }
+        { path: '/', label: 'Home' },
+        { path: '/about', label: 'About' },
+        { path: '/contact', label: 'Contact' },
+        { path: '/help', label: 'Help' },
     ];
 
-    // Toggle mobile menu
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
-    // Close menu when link is clicked
-    const handleLinkClick = () => {
-        setIsMenuOpen(false);
-    };
-
-    // Check if link is active
-    const isActive = (path) => {
-        return location.pathname === path;
-    };
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const handleLinkClick = () => setIsMenuOpen(false);
+    const isActive = (path) => location.pathname === path;
 
     return (
         <nav className="navbar">
             <div className="navbar-container container">
-                {/* Logo/Brand */}
+                {/* Logo */}
                 <Link to="/" className="navbar-brand" onClick={handleLinkClick}>
-                    <span className="navbar-logo">🥗</span>
-                    <span className="navbar-title">FoodCheck</span>
+                    <div className="navbar-logo-mark">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+                            <path d="m9 12 2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <span className="navbar-title">Food<span>Check</span></span>
                 </Link>
 
-                {/* Desktop Navigation Links */}
+                {/* Desktop Links */}
                 <ul className="navbar-links hide-mobile">
                     {navLinks.map((link) => (
                         <li key={link.path}>
@@ -52,18 +43,17 @@ function Navbar() {
                                 to={link.path}
                                 className={`navbar-link ${isActive(link.path) ? 'active' : ''}`}
                             >
-                                <span className="navbar-link-icon">{link.icon}</span>
-                                <span className="navbar-link-label">{link.label}</span>
+                                {link.label}
                             </Link>
                         </li>
                     ))}
                 </ul>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Toggle */}
                 <button
                     className="navbar-toggle hide-desktop"
                     onClick={toggleMenu}
-                    aria-label="Toggle navigation menu"
+                    aria-label="Toggle menu"
                     aria-expanded={isMenuOpen}
                 >
                     <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}>
@@ -73,7 +63,7 @@ function Navbar() {
                     </span>
                 </button>
 
-                {/* Mobile Navigation Menu */}
+                {/* Mobile Menu */}
                 <div className={`navbar-mobile-menu ${isMenuOpen ? 'open' : ''}`}>
                     <ul className="navbar-mobile-links">
                         {navLinks.map((link) => (
@@ -83,8 +73,7 @@ function Navbar() {
                                     className={`navbar-mobile-link ${isActive(link.path) ? 'active' : ''}`}
                                     onClick={handleLinkClick}
                                 >
-                                    <span className="navbar-link-icon">{link.icon}</span>
-                                    <span className="navbar-link-label">{link.label}</span>
+                                    {link.label}
                                 </Link>
                             </li>
                         ))}
@@ -92,7 +81,6 @@ function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
             {isMenuOpen && (
                 <div className="navbar-overlay" onClick={handleLinkClick}></div>
             )}

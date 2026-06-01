@@ -1,5 +1,5 @@
 /**
- * Navbar Styles
+ * Navbar Styles — Dark Dashboard
  */
 
 .navbar {
@@ -8,10 +8,11 @@
     left: 0;
     right: 0;
     height: var(--navbar-height);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--neutral-200);
-    z-index: var(--z-dropdown);
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border-subtle);
+    z-index: 100;
 }
 
 .navbar-container {
@@ -21,98 +22,111 @@
     height: 100%;
 }
 
-/* Brand/Logo */
+/* Brand */
 .navbar-brand {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--space-3);
     text-decoration: none;
-    color: var(--neutral-900);
-    font-weight: 700;
-    font-size: var(--font-size-xl);
-    transition: transform var(--transition-fast);
+    transition: opacity var(--ease-fast);
 }
 
 .navbar-brand:hover {
-    transform: scale(1.02);
-    color: var(--neutral-900);
+    opacity: 0.8;
 }
 
-.navbar-logo {
-    font-size: var(--font-size-2xl);
+.navbar-logo-mark {
+    width: 30px;
+    height: 30px;
+    background: var(--text-primary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-logo-mark svg {
+    color: #000;
 }
 
 .navbar-title {
-    background: linear-gradient(135deg, var(--primary-600), var(--success-600));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
-/* Desktop Navigation Links */
+.navbar-title span {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Desktop Nav Links */
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--space-1);
 }
 
 .navbar-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
-    padding: var(--spacing-2) var(--spacing-4);
-    border-radius: var(--radius-lg);
-    color: var(--neutral-600);
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
     font-weight: 500;
     text-decoration: none;
-    transition: all var(--transition-fast);
+    transition: all var(--ease-fast);
+    letter-spacing: 0.01em;
 }
 
 .navbar-link:hover {
-    background: var(--primary-50);
-    color: var(--primary-600);
+    color: var(--text-primary);
+    background: var(--bg-surface-2);
 }
 
 .navbar-link.active {
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: white;
+    color: var(--text-primary);
+    background: var(--bg-surface-3);
 }
 
 .navbar-link-icon {
-    font-size: var(--font-size-lg);
+    display: none;
 }
 
-/* Mobile Toggle Button */
+/* Mobile Toggle */
 .navbar-toggle {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background: none;
-    border: none;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-surface-2);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
     cursor: pointer;
 }
 
 .hamburger {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 .hamburger span {
     display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--neutral-700);
+    width: 18px;
+    height: 1.5px;
+    background: var(--text-secondary);
     border-radius: 2px;
-    transition: all var(--transition-fast);
+    transition: all var(--ease-fast);
 }
 
 .hamburger.open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(5.5px) rotate(45deg);
 }
 
 .hamburger.open span:nth-child(2) {
@@ -120,7 +134,7 @@
 }
 
 .hamburger.open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-5.5px) rotate(-45deg);
 }
 
 /* Mobile Menu */
@@ -128,13 +142,13 @@
     position: fixed;
     top: var(--navbar-height);
     right: -100%;
-    width: 280px;
+    width: 260px;
     height: calc(100vh - var(--navbar-height));
-    background: white;
-    box-shadow: var(--shadow-xl);
-    transition: right var(--transition-normal);
+    background: var(--bg-surface);
+    border-left: 1px solid var(--border-default);
+    transition: right var(--ease-normal);
     overflow-y: auto;
-    z-index: var(--z-dropdown);
+    z-index: 100;
 }
 
 .navbar-mobile-menu.open {
@@ -142,58 +156,38 @@
 }
 
 .navbar-mobile-links {
-    padding: var(--spacing-4);
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2);
+    gap: var(--space-1);
 }
 
 .navbar-mobile-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-3);
-    padding: var(--spacing-4);
-    border-radius: var(--radius-lg);
-    color: var(--neutral-700);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: var(--text-base);
     font-weight: 500;
-    font-size: var(--font-size-lg);
     text-decoration: none;
-    transition: all var(--transition-fast);
+    transition: all var(--ease-fast);
 }
 
-.navbar-mobile-link:hover {
-    background: var(--primary-50);
-    color: var(--primary-600);
-}
-
+.navbar-mobile-link:hover,
 .navbar-mobile-link.active {
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: white;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
 }
 
-/* Mobile Overlay */
+/* Overlay */
 .navbar-overlay {
     position: fixed;
     top: var(--navbar-height);
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: calc(var(--z-dropdown) - 1);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar-brand {
-        font-size: var(--font-size-lg);
-    }
-
-    .navbar-logo {
-        font-size: var(--font-size-xl);
-    }
-}
-
-/* Add top padding to main content to account for fixed navbar */
-.main-content {
-    padding-top: var(--navbar-height);
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
 }
