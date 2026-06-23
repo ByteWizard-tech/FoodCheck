@@ -140,7 +140,7 @@ function transformProduct(rawProduct) {
         brand: rawProduct.brands || 'Unknown Brand',
         image: rawProduct.image_url || rawProduct.image_front_url || null,
         imageLarge: rawProduct.image_front_url || rawProduct.image_url || null,
-        ingredients: rawProduct.ingredients_text || rawProduct.ingredients_text_en || 'Ingredients not available',
+        ingredients: rawProduct.ingredients_text_en || rawProduct.ingredients_text || 'Ingredients not available',
         ingredientsList: (rawProduct.ingredients || []).map(ing => ({
             name: ing.text || ing.id,
             percent: ing.percent_estimate || null
@@ -201,7 +201,9 @@ async function searchProducts(query, page = 1, pageSize = 20) {
                     page: page,
                     page_size: pageSize,
                     sort_by: 'unique_scans_n',
-                    fields: 'code,product_name,product_name_en,brands,image_url,image_front_url,nutriscore_grade,nutrition_grades'
+                    fields: 'code,product_name,product_name_en,brands,image_url,image_front_url,nutriscore_grade,nutrition_grades',
+                    lc: 'en',
+                    tags_lc: 'en'
                 },
                 headers: HEADERS,
                 timeout: 15000
@@ -273,6 +275,10 @@ async function getProductByBarcode(barcode) {
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
             const response = await axios.get(`${PRODUCT_URL}/${barcode}.json`, {
+                params: {
+                    lc: 'en',
+                    tags_lc: 'en'
+                },
                 headers: HEADERS,
                 timeout: 15000
             });
