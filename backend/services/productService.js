@@ -16,6 +16,10 @@ const HEADERS = {
     'User-Agent': 'FoodComplianceChecker/1.0 (biosafety@example.com)'
 };
 
+// In-Memory Caches for Demo Performance
+const searchCache = new Map();
+const barcodeCache = new Map();
+
 /**
  * Calculate health score based on product data
  * Score ranges from 0-100
@@ -99,6 +103,16 @@ function calculateHealthScore(product) {
 }
 
 /**
+ * Round a numeric value to 1 decimal place, or return null
+ * @param {*} value - Value to round
+ * @returns {number|null}
+ */
+function roundNutrient(value) {
+    if (value == null || isNaN(value)) return null;
+    return Math.round(value * 10) / 10;
+}
+
+/**
  * Transform raw API product data into clean format
  * @param {object} rawProduct - Raw product data from Open Food Facts
  * @returns {object} Cleaned product data
@@ -138,16 +152,16 @@ function transformProduct(rawProduct) {
         novaGroup: rawProduct.nova_group || null,
         additives: parsedAdditives,
         nutrients: {
-            energy: rawProduct.nutriments?.energy_100g || null,
+            energy: roundNutrient(rawProduct.nutriments?.energy_100g),
             energyUnit: rawProduct.nutriments?.energy_unit || 'kJ',
-            fat: rawProduct.nutriments?.fat_100g || null,
-            saturatedFat: rawProduct.nutriments?.['saturated-fat_100g'] || null,
-            carbs: rawProduct.nutriments?.carbohydrates_100g || null,
-            sugars: rawProduct.nutriments?.sugars_100g || null,
-            fiber: rawProduct.nutriments?.fiber_100g || null,
-            proteins: rawProduct.nutriments?.proteins_100g || null,
-            salt: rawProduct.nutriments?.salt_100g || null,
-            sodium: rawProduct.nutriments?.sodium_100g || null
+            fat: roundNutrient(rawProduct.nutriments?.fat_100g),
+            saturatedFat: roundNutrient(rawProduct.nutriments?.['saturated-fat_100g']),
+            carbs: roundNutrient(rawProduct.nutriments?.carbohydrates_100g),
+            sugars: roundNutrient(rawProduct.nutriments?.sugars_100g),
+            fiber: roundNutrient(rawProduct.nutriments?.fiber_100g),
+            proteins: roundNutrient(rawProduct.nutriments?.proteins_100g),
+            salt: roundNutrient(rawProduct.nutriments?.salt_100g),
+            sodium: roundNutrient(rawProduct.nutriments?.sodium_100g)
         },
         categories: rawProduct.categories || '',
         quantity: rawProduct.quantity || '',
@@ -163,41 +177,80 @@ function transformProduct(rawProduct) {
  * @returns {Promise<object>} Search results with products and pagination info
  */
 async function searchProducts(query, page = 1, pageSize = 20) {
-    try {
-        const response = await axios.get(SEARCH_URL, {
-            params: {
-                search_terms: query,
-                search_simple: 1,
-                action: 'process',
-                json: 1,
-                page: page,
-                page_size: pageSize,
-                fields: 'code,product_name,product_name_en,brands,image_url,image_front_url,nutriscore_grade,nutrition_grades'
-            },
-            headers: HEADERS,
-            timeout: 15000 // 15 second timeout
-        });
-
-        const data = response.data;
-        const products = (data.products || []).map(p => ({
-            id: p.code,
-            name: p.product_name || p.product_name_en || 'Unknown Product',
-            brand: p.brands || '',
-            image: p.image_url || p.image_front_url || null,
-            healthRating: p.nutriscore_grade || p.nutrition_grades || null
-        }));
-
-        return {
-            products: products,
-            totalCount: data.count || 0,
-            page: page,
-            pageSize: pageSize,
-            totalPages: Math.ceil((data.count || 0) / pageSize)
-        };
-    } catch (error) {
-        console.error('Error searching products:', error.message);
-        throw new Error('Failed to search products. Please try again.');
+    const cacheKey = `${query}_${page}_${pageSize}`;
+    
+    // Check Cache First
+    if (searchCache.has(cacheKey)) {
+        console.log(`[Cache Hit] Search: ${query} (Page ${page})`);
+        return searchCache.get(cacheKey);
     }
+
+    console.log(`[Cache Miss] Fetching Search: ${query} (Page ${page})`);
+    
+    const maxRetries = 1;
+    let lastError = null;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await axios.get(SEARCH_URL, {
+                params: {
+                    search_terms: query,
+                    search_simple: 1,
+                    action: 'process',
+                    json: 1,
+                    page: page,
+                    page_size: pageSize,
+                    sort_by: 'unique_scans_n',
+                    fields: 'code,product_name,product_name_en,brands,image_url,image_front_url,nutriscore_grade,nutrition_grades'
+                },
+                headers: HEADERS,
+                timeout: 15000
+            });
+
+            // Validate response is JSON (OFF sometimes returns HTML error pages)
+            const data = response.data;
+            if (typeof data === 'string' || !data || !Array.isArray(data.products)) {
+                console.warn('Open Food Facts returned invalid response, retrying...');
+                lastError = new Error('Invalid response from food database');
+                continue;
+            }
+
+            // Filter out products with empty/missing names and map to clean format
+            const products = (data.products || [])
+                .filter(p => {
+                    const name = (p.product_name || p.product_name_en || '').trim();
+                    return name.length > 0;
+                })
+                .map(p => ({
+                    id: p.code,
+                    name: p.product_name || p.product_name_en,
+                    brand: p.brands || '',
+                    image: p.image_url || p.image_front_url || null,
+                    healthRating: p.nutriscore_grade || p.nutrition_grades || null
+                }));
+
+            const result = {
+                products: products,
+                totalCount: data.count || 0,
+                page: page,
+                pageSize: pageSize,
+                totalPages: Math.ceil((data.count || 0) / pageSize)
+            };
+
+            // Save to Cache
+            searchCache.set(cacheKey, result);
+            return result;
+        } catch (error) {
+            console.error(`Search attempt ${attempt + 1} failed:`, error.message);
+            lastError = error;
+            // Wait briefly before retry
+            if (attempt < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+    }
+
+    throw new Error(lastError?.message || 'Failed to search products. Please try again.');
 }
 
 /**
@@ -206,23 +259,52 @@ async function searchProducts(query, page = 1, pageSize = 20) {
  * @returns {Promise<object|null>} Product data or null if not found
  */
 async function getProductByBarcode(barcode) {
-    try {
-        const response = await axios.get(`${PRODUCT_URL}/${barcode}.json`, {
-            headers: HEADERS,
-            timeout: 15000
-        });
-
-        const data = response.data;
-
-        if (data.status === 0 || !data.product) {
-            return null; // Product not found
-        }
-
-        return transformProduct(data.product);
-    } catch (error) {
-        console.error('Error fetching product by barcode:', error.message);
-        throw new Error('Failed to fetch product. Please try again.');
+    // Check Cache First
+    if (barcodeCache.has(barcode)) {
+        console.log(`[Cache Hit] Barcode: ${barcode}`);
+        return barcodeCache.get(barcode);
     }
+
+    console.log(`[Cache Miss] Fetching Barcode: ${barcode}`);
+
+    const maxRetries = 1;
+    let lastError = null;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await axios.get(`${PRODUCT_URL}/${barcode}.json`, {
+                headers: HEADERS,
+                timeout: 15000
+            });
+
+            const data = response.data;
+
+            // Validate response is JSON
+            if (typeof data === 'string' || !data) {
+                console.warn('Open Food Facts returned invalid response for barcode, retrying...');
+                lastError = new Error('Invalid response from food database');
+                continue;
+            }
+
+            if (data.status === 0 || !data.product) {
+                return null; // Product not found
+            }
+
+            const result = transformProduct(data.product);
+            
+            // Save to Cache
+            barcodeCache.set(barcode, result);
+            return result;
+        } catch (error) {
+            console.error(`Barcode lookup attempt ${attempt + 1} failed:`, error.message);
+            lastError = error;
+            if (attempt < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+    }
+
+    throw new Error(lastError?.message || 'Failed to fetch product. Please try again.');
 }
 
 /**

@@ -287,7 +287,7 @@ cd backend
 npm install
 npm start
 ```
-The backend runs on `http://localhost:5000`
+The backend runs on `http://localhost:5005`
 
 ### Frontend Setup
 ```bash
@@ -300,7 +300,7 @@ The frontend runs on `http://localhost:5173`
 ### Environment Variables (Optional)
 Create a `.env` file in the `backend` folder:
 ```
-PORT=5000
+PORT=5005
 NODE_ENV=development
 ```
 

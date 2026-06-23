@@ -15,11 +15,17 @@ function SearchResults() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1, totalCount: 0 });
 
+    // Reset to page 1 when query changes
     useEffect(() => {
-        if (query) fetchProducts(query, pagination.page);
-    }, [query, pagination.page]);
+        setCurrentPage(1);
+    }, [query]);
+
+    useEffect(() => {
+        if (query) fetchProducts(query, currentPage);
+    }, [query, currentPage]);
 
     const fetchProducts = async (searchQuery, page) => {
         setIsLoading(true);
@@ -38,12 +44,8 @@ function SearchResults() {
                 setProducts([]);
             }
         } catch (err) {
-            if (err.error === 'No products found') {
-                setProducts([]);
-                setPagination({ page: 1, totalPages: 0, totalCount: 0 });
-            } else {
-                setError(err.message || 'Failed to search products. Please try again.');
-            }
+            setError(err.message || 'Failed to search products. Please try again.');
+            setProducts([]);
         } finally {
             setIsLoading(false);
         }
@@ -51,7 +53,7 @@ function SearchResults() {
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= pagination.totalPages) {
-            setPagination(prev => ({ ...prev, page: newPage }));
+            setCurrentPage(newPage);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };

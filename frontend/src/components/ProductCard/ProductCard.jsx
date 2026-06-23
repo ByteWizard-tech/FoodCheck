@@ -20,6 +20,12 @@ function ProductCard({ product }) {
         }
     };
 
+    const isValidRating = (rating) => {
+        if (!rating) return false;
+        const valid = ['a', 'b', 'c', 'd', 'e'];
+        return valid.includes(rating.toLowerCase());
+    };
+
     return (
         <Link to={`/product/${id}`} className="product-card">
             {/* Image */}
@@ -34,7 +40,7 @@ function ProductCard({ product }) {
                         </svg>
                     </div>
                 )}
-                {healthRating && (
+                {isValidRating(healthRating) && (
                     <div className={`product-card-rating ${getRatingClass(healthRating)}`}>
                         {healthRating.toUpperCase()}
                     </div>

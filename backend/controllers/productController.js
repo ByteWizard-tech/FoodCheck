@@ -27,15 +27,6 @@ async function searchProducts(req, res) {
 
         const results = await productService.searchProducts(query.trim(), pageNum, size);
 
-        // Check if any products found
-        if (results.products.length === 0) {
-            return res.status(404).json({
-                success: false,
-                error: 'No products found',
-                message: `No products matching "${query}" were found.`
-            });
-        }
-
         res.json({
             success: true,
             data: results

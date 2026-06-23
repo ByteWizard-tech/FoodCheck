@@ -2,7 +2,7 @@
  * Home Page — Dark Dashboard
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AllergenInput from '../../components/AllergenInput/AllergenInput';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -54,11 +54,39 @@ function Home() {
     const [isLoading, setIsLoading] = useState(false);
     const [isScannerOpen, setIsScannerOpen] = useState(false);
     const [error, setError] = useState(null);
+    const [recentSearches, setRecentSearches] = useState([]);
+
+    useEffect(() => {
+        const saved = localStorage.getItem('recentSearches');
+        if (saved) {
+            try {
+                setRecentSearches(JSON.parse(saved));
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
+    }, []);
+
+    const saveSearch = (query) => {
+        if (!query || query.trim() === '') return;
+        const trimmed = query.trim();
+        
+        setRecentSearches(prev => {
+            const filtered = prev.filter(item => item.toLowerCase() !== trimmed.toLowerCase());
+            const updated = [trimmed, ...filtered].slice(0, 5); // Keep last 5
+            localStorage.setItem('recentSearches', JSON.stringify(updated));
+            return updated;
+        });
+    };
 
     const isBarcode = (query) => /^\d{8,13}$/.test(query);
 
     const handleSearch = async (query) => {
         setError(null);
+        if (!query.trim()) return;
+        
+        saveSearch(query);
+
         if (isBarcode(query)) {
             await handleBarcodeSearch(query);
         } else {
@@ -69,6 +97,7 @@ function Home() {
     const handleBarcodeSearch = async (barcode) => {
         setIsLoading(true);
         setError(null);
+        saveSearch(barcode);
         try {
             const response = await getProductByBarcode(barcode);
             if (response.success && response.data) {
@@ -123,6 +152,23 @@ function Home() {
                         onCameraClick={() => setIsScannerOpen(true)}
                         isLoading={isLoading}
                     />
+                    
+                    {recentSearches.length > 0 && (
+                        <div className="recent-searches">
+                            <span className="recent-searches-label">Recent:</span>
+                            <div className="recent-searches-tags">
+                                {recentSearches.map((search, idx) => (
+                                    <button 
+                                        key={idx} 
+                                        className="recent-search-tag"
+                                        onClick={() => handleSearch(search)}
+                                    >
+                                        {search}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Error */}

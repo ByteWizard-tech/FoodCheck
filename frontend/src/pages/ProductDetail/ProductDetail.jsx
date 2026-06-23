@@ -140,7 +140,7 @@ function ProductDetail() {
                             {product.quantity && (
                                 <span className="product-quantity">{product.quantity}</span>
                             )}
-                            {product.healthRating && product.healthRating !== 'N/A' && (
+                            {product.healthRating && ['a','b','c','d','e'].includes(product.healthRating.toLowerCase()) && (
                                 <div className="product-nutriscore">
                                     <span className="nutriscore-label">Nutri-Score</span>
                                     <span className={`nutriscore-badge grade-${product.healthRating.toLowerCase()}`}>
