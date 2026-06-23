@@ -25,7 +25,7 @@ function About() {
                 {/* Hero */}
                 <section className="about-hero slide-up">
                     <div className="about-eyebrow">About</div>
-                    <h1 className="about-title">Built for people who<br />care what they eat.</h1>
+                    <h1 className="about-title">Built for people who<br />care about what they eat.</h1>
                     <p className="about-subtitle">
                         FoodCheck empowers consumers to make informed decisions
                         about the food they eat — instantly, anywhere.
